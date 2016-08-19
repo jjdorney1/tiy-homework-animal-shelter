@@ -35,7 +35,7 @@ public class MenuService {
         Scanner scanner = new Scanner(System.in); // new scanner for input
         String input = scanner.nextLine();  // sets the input to the number entered
 
-        int value;
+        int value; // the input value
         try {
             value = Integer.parseInt(input); // checks the input to see if it's an int
 
@@ -47,10 +47,22 @@ public class MenuService {
         return value;
     }
 
-    public String quitMenu(String input){
-        
+    public static boolean quitMenu(String message){
 
+        System.out.println(message);
+        Scanner scanner = new Scanner(System.in);
+        String inputValue = scanner.nextLine();
+        boolean command = false;
 
-        return "";
+        if(inputValue.toUpperCase().equals("YES")) {
+            System.out.println("\nThanks for using this program!");
+            command = true;
+        } else if(inputValue.toUpperCase().equals("NO")) {
+            command = false;
+        } else {
+            System.out.println("\nInput error: please enter \"Yes\" to quit, \"No\" to continue.\n");
+            quitMenu(message);
+        }
+        return command;
     }
 }

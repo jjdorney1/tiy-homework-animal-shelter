@@ -5,21 +5,20 @@ import java.util.ArrayList;
  */
 public class Animal {
 
-    String name;
-    String species;
-    String breed;
-    String description;
+    private String name;
+    private String species;
+    private String breed;
+    private String description;
 
-
-    public Animal(){
-        this.name = "Nikki";
-        this.species = "Dog";
-        this.breed = "Entlebucher";
-        this.description = "Nervous cutie.";
+    public Animal(String name, String species, String breed, String description){
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.description = description;
     }
 
     public String toString(){
         return "Name: " + this.name + "\nSpecies: " + this.species + "\nBreed: " + this.breed + "\nDescription: " + this.description;
     }
-
 }
+
