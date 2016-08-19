@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -6,18 +7,21 @@ import java.util.HashMap;
  */
 public class AnimalsService {
 
+    HashMap<Integer, Animal> allAnimalsListed = new HashMap<>();
+
     public static String animalList(){
-        return "YES";
-    }
-    public int viewAnimalPrompt(){
 
-        HashMap<String, String> animalsToView = new HashMap<>();
-
-        System.out.println("\n-- Animals --\n" +
+        System.out.println("\n-*- List of Animals -*-\n" +
                 "\n" +
-                animalsToView
-        );
-        return 2; /*viewInput("Please enter the number of the animal to see more information.")*/
+                "1) Name1 species1\n" +
+                "2) Name2 species2\n" +
+                "3) Name3 species3\n");
+
+        return "(Pick option 3 for more details about an animal!)\n";
     }
 
+    public ArrayList<String> addingAnimal() {
+        ArrayList<String> newAnimal = new ArrayList<>();
+        return newAnimal;
+    }
 }

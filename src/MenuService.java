@@ -11,13 +11,15 @@ public class MenuService {
     final static int EDIT_ANIMAL = 4;
     final static int DELETE_ANIMAL = 5;
     final static int QUIT = 6;
+    final static int QUIT_CONFIRM = 1;
+    final static int QUIT_CANCEL = 0;
 
 
 
     // prompt for the main menu
     public int mainMenuPrompt() {
 
-        System.out.println("\n-- Main Menu --\n" +
+        System.out.println("\n-*- Main Menu -*-\n" +
                 "\n" +
                 "1) List animals\n" +
                 "2) Create an animal\n" +
@@ -26,7 +28,7 @@ public class MenuService {
                 "5) Delete an animal\n" +
                 "6) Quit\n");
 
-        return waitForMenuInput("Please choose a listed option:"); // runs the waitForInput method to get selection
+        return waitForMenuInput("Please choose an option from the list above:"); // runs the waitForInput method to get selection
     }
 
     private int waitForMenuInput(String message) {
@@ -60,7 +62,7 @@ public class MenuService {
         } else if(inputValue.toUpperCase().equals("NO")) {
             command = false;
         } else {
-            System.out.println("\nInput error: please enter \"Yes\" to quit, \"No\" to continue.\n");
+            System.out.println("\nInput Error: please enter a valid response.\n");
             quitMenu(message);
         }
         return command;
