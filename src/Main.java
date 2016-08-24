@@ -1,3 +1,5 @@
+import java.awt.*;
+
 /**
  * Created by jeffreydorney on 8/19/16.
  */
@@ -6,25 +8,23 @@ public class Main {
 
         MenuService menuService = new MenuService();
 
-        Animal animal = new Animal("Nikki", "Dog", "Entlebucher", "Nervous cutie");
-
         while(true) {
             int action = menuService.mainMenuPrompt();
 
             if(action == MenuService.LIST_ANIMALS){
-                System.out.println(AnimalsService.animalList());
+                System.out.println(AnimalsService.listingAnimals());
 
             } else if(action == MenuService.CREATE_ANIMAL){
-                System.out.println("Create animal!");
+                System.out.println(AnimalsService.addingAnimal());
 
             } else if(action == MenuService.VIEW_ANIMAL){
-                System.out.println("View animal!");
+                System.out.println(AnimalsService.viewAnimalDetails());
 
             } else if(action == MenuService.EDIT_ANIMAL){
-                System.out.println("Edit animal!");
+                System.out.println(AnimalsService.editAnimalInformation());
 
             } else if(action == MenuService.DELETE_ANIMAL){
-                System.out.println("Delete animal!");
+                System.out.println("Which animal to delete?");
 
             } else if(action == MenuService.QUIT){
                 if(MenuService.quitMenu("Are you sure you want to quit? (\"Yes\"/\"No\")")) break;

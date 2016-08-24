@@ -11,8 +11,7 @@ public class MenuService {
     final static int EDIT_ANIMAL = 4;
     final static int DELETE_ANIMAL = 5;
     final static int QUIT = 6;
-    final static int QUIT_CONFIRM = 1;
-    final static int QUIT_CANCEL = 0;
+    static int quitConfirm = 0;
 
 
 
@@ -28,10 +27,11 @@ public class MenuService {
                 "5) Delete an animal\n" +
                 "6) Quit\n");
 
-        return waitForMenuInput("Please choose an option from the list above:"); // runs the waitForInput method to get selection
+        // runs the waitForInput method to get selection
+        return waitForUserMenuInput("Please choose an option from the list above:");
     }
 
-    private int waitForMenuInput(String message) {
+    public static int waitForUserMenuInput(String message) {
 
         System.out.println(message);        // prints out input message
         Scanner scanner = new Scanner(System.in); // new scanner for input
@@ -44,10 +44,28 @@ public class MenuService {
         } catch(Exception e){
             System.out.println("\nPlease provide a valid menu selection.\n"); // runs if input isn't an int
 
-            value = waitForMenuInput(message); // re-runs the method to check again for int
+            value = waitForUserMenuInput(message); // re-runs the method to check again for int
         }
         return value;
     }
+    /*
+    public static int waitForUserQuitInput(String message) {
+
+        System.out.println(message);        // prints out input message
+        Scanner scanner = new Scanner(System.in); // new scanner for input
+        String input = scanner.nextLine();  // sets the input to the number entered
+
+        try {
+            input == "YES" || "NO"; // checks the input to see if it's an int
+
+        } catch(Exception e){
+            System.out.println("\nPlease provide a valid menu selection.\n"); // runs if input isn't an int
+
+            value = waitForUserInput(message); // re-runs the method to check again for int
+        }
+        return value;
+    }
+    */
 
     public static boolean quitMenu(String message){
 
@@ -56,6 +74,10 @@ public class MenuService {
         String inputValue = scanner.nextLine();
         boolean command = false;
 
+        while(quitConfirm == 0){
+
+        }
+        /*
         if(inputValue.toUpperCase().equals("YES")) {
             System.out.println("\nThanks for using this program!");
             command = true;
@@ -65,6 +87,8 @@ public class MenuService {
             System.out.println("\nInput Error: please enter a valid response.\n");
             quitMenu(message);
         }
+        */
         return command;
     }
+
 }
