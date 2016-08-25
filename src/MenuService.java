@@ -74,10 +74,10 @@ public class MenuService {
         String inputValue = scanner.nextLine();
         boolean command = false;
 
-        while(quitConfirm == 0){
+        //while(quitConfirm == 0){
 
-        }
-        /*
+        //}
+
         if(inputValue.toUpperCase().equals("YES")) {
             System.out.println("\nThanks for using this program!");
             command = true;
@@ -87,7 +87,7 @@ public class MenuService {
             System.out.println("\nInput Error: please enter a valid response.\n");
             quitMenu(message);
         }
-        */
+
         return command;
     }
 

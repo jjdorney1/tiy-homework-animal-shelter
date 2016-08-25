@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -8,7 +9,7 @@ import java.util.Scanner;
  */
 public class AnimalsService {
 
-    static ArrayList<Integer> allAnimalsListedArray = new ArrayList<>();
+    static ArrayList<ArrayList<String>> allAnimalsListedArray = new ArrayList<>();
     static HashMap<Integer, ArrayList<String>> allAnimalsListedMap = new HashMap<>();
 
     /**
@@ -17,17 +18,26 @@ public class AnimalsService {
      * Lists animals when selected from the main menu.
      *
      */
-    public static String listingAnimals(){
+    public static String listingAnimals() throws IOException {
 
         System.out.println("\n-*- List of Animals -*-\n");
 
-        if(allAnimalsListedMap.isEmpty()){
+
+        if(allAnimalsListedArray.isEmpty()){
             System.out.println("No animals entered yet,\nplease create an animal.");
         } else {
-            for (int x = 1; x <= allAnimalsListedMap.size(); x++) {
+            for (ArrayList animal : allAnimalsListedArray) {
+
+                System.out.println((allAnimalsListedArray.indexOf(animal)+1) + ".) " + animal.get(0) + " " + animal.get(1));
+
+                /*
                 ArrayList<String> currentAnimal = new ArrayList<>();
                 currentAnimal = allAnimalsListedMap.get(x);
-                System.out.print(x + ".) " + currentAnimal.get(0) + " " + currentAnimal.get(1) + "\n");
+
+                if(currentAnimal != null){
+                    System.out.print(x + ".) " + currentAnimal.get(0) + " " + currentAnimal.get(1) + "\n");
+            }*/
+
 
             }
         }
@@ -64,7 +74,7 @@ public class AnimalsService {
         newAnimal.add(3, description);
 
         //allAnimalsListedArray.add(allAnimalsListedArray.size()+1, animalName);
-        allAnimalsListedMap.put(allAnimalsListedMap.size()+1, newAnimal);
+        allAnimalsListedArray.add(allAnimalsListedArray.size(), newAnimal);
 
         return "\n\nSuccess! The animal has been created,\n" +
                 "and added to the database.\n";
@@ -78,7 +88,7 @@ public class AnimalsService {
      */
     public static ArrayList<String> viewAnimalDetails() {
         int inputOption = validNumberEnteredCheck("What is the numeric ID of the animal you want to view?: ");
-        ArrayList<String> test = allAnimalsListedMap.get(inputOption);
+        ArrayList<String> test = allAnimalsListedArray.get(inputOption);
 
 
         /*
@@ -121,7 +131,7 @@ public class AnimalsService {
      */
     public static String deleteAnimalFromMemory(int animalToDelete){
 
-        allAnimalsListedMap.remove(animalToDelete);
+        allAnimalsListedArray.remove(animalToDelete-1);
 
         return "Animal has been successfully deleted.";
 
@@ -143,7 +153,7 @@ public class AnimalsService {
 
         int value;
         try {
-            value = Integer.parseInt(input);
+            value = Integer.parseInt(input) - 1;
 
         } catch(Exception e){
             System.out.println("\nPlease provide a valid animal selection.\n");
