@@ -1,4 +1,4 @@
-import java.awt.*;
+
 
 /**
  * Created by jeffreydorney on 8/19/16.
@@ -24,10 +24,11 @@ public class Main {
                 System.out.println(AnimalsService.editAnimalInformation());
 
             } else if(action == MenuService.DELETE_ANIMAL){
-                System.out.println("Which animal to delete?");
+                System.out.println(AnimalsService.deleteAnimalFromMemory(MenuService.waitForUserMenuInput("Enter the animal you wish to delete.")));
 
             } else if(action == MenuService.QUIT){
-                if(MenuService.quitMenu("Are you sure you want to quit? (\"Yes\"/\"No\")")) break;
+                if(MenuService.quitMenu("Are you sure you want to quit? (\"Yes\"/\"No\")"))
+                    break;
 
             } else {
                 System.out.println("Not a valid response, please try again.");

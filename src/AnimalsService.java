@@ -119,13 +119,20 @@ public class AnimalsService {
      * @param animalToDelete
      * @return
      */
-    public String deleteAnimalFromMemory(int animalToDelete){
+    public static String deleteAnimalFromMemory(int animalToDelete){
+
+        allAnimalsListedMap.remove(animalToDelete);
+
+        return "Animal has been successfully deleted.";
+
+/*
         if(!allAnimalsListedMap.containsValue(animalToDelete)){
             return "Invalid selection, animal does not exist.";
         } else {
             allAnimalsListedMap.remove(animalToDelete);
             return "Animal has been deleted.";
         }
+*/
 
     }
 
