@@ -24,7 +24,7 @@ public class AnimalsService {
 
 
         if(allAnimalsListedArray.isEmpty()){
-            System.out.println("No animals entered yet,\nplease create an animal.");
+            System.out.println("No animals entered yet please create an animal.");
         } else {
             for (ArrayList animal : allAnimalsListedArray) {
 
@@ -86,22 +86,15 @@ public class AnimalsService {
      * Views animal details when selected from the main menu.
      *
      */
-    public static ArrayList<String> viewAnimalDetails() {
+    public static void viewAnimalDetails() {
         int inputOption = validNumberEnteredCheck("What is the numeric ID of the animal you want to view?: ");
-        ArrayList<String> test = allAnimalsListedArray.get(inputOption);
+        ArrayList<String> animal = allAnimalsListedArray.get(inputOption);
 
-
-        /*
-        if(allAnimalsListedMap.get(inputOption)) {
-            System.out.println(allAnimalsListedMap.get(inputOption));
-        } else {
-            System.out.println("Not a valid selection. Returning to menu.");
-        }
-        */
-
-        return test;
+        System.out.println("Name: " + animal.get(0) +
+                            "\nSpecies: " + animal.get(1) +
+                            "\nBreed: " + animal.get(2) +
+                            "\nDescription: " + animal.get(3));
     }
-
 
     /**
      * Function 4:
@@ -110,15 +103,37 @@ public class AnimalsService {
      */
     public static String editAnimalInformation(){
 
+        ArrayList<String> newAnimal = new ArrayList<>();
+
         // new scanner object
         Scanner scanner = new Scanner(System.in);
 
-        // makes sure a valid number is entered
-        int animalToChange =  validNumberEnteredCheck(scanner.toString());
+        // makes sure a valid number is entered assigns to animalToChange
+        int animalToChange =  validNumberEnteredCheck("Please enter the number of animal to change: ");
+        ArrayList<String> animal = allAnimalsListedArray.get(animalToChange);
 
-        // test print of entered number
-        System.out.println(animalToChange + " animal to change");
-        return "Animal successfully edited.";
+        System.out.print("Animal Name: ");
+        String animalName = scanner.nextLine();
+        newAnimal.add(0, animalName);
+
+        System.out.print("Species: ");
+        String species = scanner.nextLine();
+        newAnimal.add(1, species);
+
+        System.out.print("Breed (optional): ");
+        String breed = scanner.nextLine();
+        newAnimal.add(2, breed);
+
+        System.out.print("Description: ");
+        String description = scanner.nextLine();
+        newAnimal.add(3, description);
+
+        if(newAnimal != animal){
+            allAnimalsListedArray.remove(animalToChange);
+            allAnimalsListedArray.add(animalToChange, newAnimal);
+        }
+
+        return "\nAnimal successfully edited.";
     }
 
 
@@ -172,6 +187,11 @@ public class AnimalsService {
             return value;
         }
         */
+    }
+
+    public static void listingAnimalDetails(ArrayList<String> animals, int animalNumber) {
+        System.out.println(animals.get(animalNumber));
+
     }
 
 }

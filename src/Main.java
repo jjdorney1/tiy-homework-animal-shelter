@@ -18,7 +18,7 @@ public class Main {
                 System.out.println(AnimalsService.addingAnimal());
 
             } else if(action == MenuService.VIEW_ANIMAL){
-                System.out.println(AnimalsService.viewAnimalDetails());
+                AnimalsService.viewAnimalDetails();
 
             } else if(action == MenuService.EDIT_ANIMAL){
                 System.out.println(AnimalsService.editAnimalInformation());
