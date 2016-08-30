@@ -10,7 +10,8 @@ import java.util.Scanner;
 public class AnimalsService {
 
     static ArrayList<ArrayList<String>> allAnimalsListedArray = new ArrayList<>();
-    static HashMap<Integer, ArrayList<String>> allAnimalsListedMap = new HashMap<>();
+    //static HashMap<Integer, ArrayList<String>> allAnimalsListedMap = new HashMap<>();
+
 
     /**
      * FUNCTION 1:
@@ -55,22 +56,19 @@ public class AnimalsService {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("\nPlease enter the following information:\n" +
-        "(Press enter to confirm your information.)\n\n");
+        "(Press enter to confirm the information.)\n\n");
 
-        System.out.print("Animal Name: ");
-        String animalName = scanner.nextLine();
+        String animalName = hasStringCheck("Animal Name: ");
         newAnimal.add(0, animalName);
 
-        System.out.print("Species: ");
-        String species = scanner.nextLine();
+        String species = hasStringCheck("Species: ");
         newAnimal.add(1, species);
 
-        System.out.print("Breed (optional): ");
+        System.out.println("Breed (optional): ");
         String breed = scanner.nextLine();
         newAnimal.add(2, breed);
 
-        System.out.print("Description: ");
-        String description = scanner.nextLine();
+        String description = hasStringCheck("Description: ");
         newAnimal.add(3, description);
 
         //allAnimalsListedArray.add(allAnimalsListedArray.size()+1, animalName);
@@ -87,13 +85,24 @@ public class AnimalsService {
      *
      */
     public static void viewAnimalDetails() {
-        int inputOption = validNumberEnteredCheck("What is the numeric ID of the animal you want to view?: ");
-        ArrayList<String> animal = allAnimalsListedArray.get(inputOption);
+        if(AnimalsService.allAnimalsListedArray.isEmpty()) {
+            System.out.println("\nNo animals entered, choose another option.");
+        } else {
+            int inputOption = validNumberEnteredCheck("What is the numeric ID of the animal you want to view?: ");
 
-        System.out.println("Name: " + animal.get(0) +
-                            "\nSpecies: " + animal.get(1) +
-                            "\nBreed: " + animal.get(2) +
-                            "\nDescription: " + animal.get(3));
+            if(inputOption >= allAnimalsListedArray.size() || inputOption < 0) {
+                System.out.println("Error, number invalid.");
+                viewAnimalDetails();
+            }else {
+                ArrayList<String> animal = allAnimalsListedArray.get(inputOption);
+
+
+                System.out.println("Name: " + animal.get(0) +
+                        "\nSpecies: " + animal.get(1) +
+                        "\nBreed: " + animal.get(2) +
+                        "\nDescription: " + animal.get(3));
+            }
+        }
     }
 
     /**
@@ -105,27 +114,23 @@ public class AnimalsService {
 
         ArrayList<String> newAnimal = new ArrayList<>();
 
-        // new scanner object
-        Scanner scanner = new Scanner(System.in);
+        // new scanner object - NO LONGER NEEDED
+        // Scanner scanner = new Scanner(System.in);
 
         // makes sure a valid number is entered assigns to animalToChange
         int animalToChange =  validNumberEnteredCheck("Please enter the number of animal to change: ");
         ArrayList<String> animal = allAnimalsListedArray.get(animalToChange);
 
-        System.out.print("Animal Name: ");
-        String animalName = scanner.nextLine();
+        String animalName = noChangeOfData("Animal Name: ", animal.get(0));
         newAnimal.add(0, animalName);
 
-        System.out.print("Species: ");
-        String species = scanner.nextLine();
+        String species = noChangeOfData("Species: ", animal.get(1));
         newAnimal.add(1, species);
 
-        System.out.print("Breed (optional): ");
-        String breed = scanner.nextLine();
+        String breed = noChangeOfData("Breed (optional): ", animal.get(2));
         newAnimal.add(2, breed);
 
-        System.out.print("Description: ");
-        String description = scanner.nextLine();
+        String description = noChangeOfData("Description: ", animal.get(3));
         newAnimal.add(3, description);
 
         if(newAnimal != animal){
@@ -177,20 +182,47 @@ public class AnimalsService {
         }
 
         return value;
-
-        /*
-        if(allAnimalsListed.containsValue(value)) {
-            System.out.println("The " + value + " number is valid.");
-            return value;
-        } else {
-            System.out.println("The " + value + " number is NOT valid.");
-            return value;
-        }
-        */
     }
+
 
     public static void listingAnimalDetails(ArrayList<String> animals, int animalNumber) {
         System.out.println(animals.get(animalNumber));
+
+    }
+
+    public static String hasStringCheck(String message){
+        System.out.println(message);
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        if(input.isEmpty()){
+            System.out.println("Invalid entry! Please enter requested information.\n");
+            input = hasStringCheck(message);
+        }
+
+        /*
+        try {
+            input = "";
+        } catch(Exception e){
+            System.out.println("\Invalid entry, please enter a valid name.");
+
+            input = hasStringCheck(message);
+        }
+        return input;
+        */
+        return input;
+    }
+
+    public static String noChangeOfData(String message, String currentString){
+        System.out.println(message);
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        if(input.isEmpty()){
+            input = currentString;
+        }
+
+        return input;
 
     }
 
