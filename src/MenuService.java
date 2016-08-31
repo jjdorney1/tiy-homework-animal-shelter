@@ -13,7 +13,8 @@ public class MenuService {
     final static int QUIT = 6;
     static int quitConfirm = 0;
 
-
+    // command for quitMenu function
+    private static boolean command = false;
 
     // prompt for the main menu
     public int mainMenuPrompt() {
@@ -72,7 +73,6 @@ public class MenuService {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String inputValue = scanner.nextLine();
-        boolean command = false;
 
         //while(quitConfirm == 0){
 
