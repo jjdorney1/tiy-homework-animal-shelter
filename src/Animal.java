@@ -11,14 +11,59 @@ public class Animal {
     private String description;
 
     public Animal(String name, String species, String breed, String description){
-        this.name = name;
-        this.species = species;
-        this.breed = breed;
-        this.description = description;
+        setName(name);
+        setSpecies(species);
+        setBreed(breed);
+        setDescription(description);
     }
 
     public String toString(){
         return "Name: " + this.name + "\nSpecies: " + this.species + "\nBreed: " + this.breed + "\nDescription: " + this.description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        if(!name.isEmpty()){
+            this.name = name;
+        } else {
+            System.out.println("Name cannot be empty!");
+        }
+
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        if(!species.isEmpty()){
+            this.species = species;
+        } else {
+            System.out.println("Species cannot be empty!");
+        }
+    }
+
+    public String getBreed() {
+        return breed;
+    }
+
+    public void setBreed(String breed) {
+        this.breed = breed;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        if(!description.isEmpty()) {
+            this.description = description;
+        } else {
+            System.out.println("Description cannot be empty!");
+        }
     }
 }
 
