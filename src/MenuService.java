@@ -22,17 +22,21 @@ public class MenuService {
         System.out.println("No animals entered.");
     }
 
+    static void invalidSelection() {
+        System.out.println("Invalid selection.");
+    }
+
     // prompt for the main menu
     public int mainMenuPrompt() {
 
         System.out.println("\n-*- Main Menu -*-\n" +
                 "\n" +
-                "1) List animals\n" +
-                "2) Create an animal\n" +
-                "3) View animal details\n" +
-                "4) Edit an animal\n" +
-                "5) Delete an animal\n" +
-                "6) Quit\n");
+                "1.)\tList animals\n" +
+                "2.)\tCreate an animal\n" +
+                "3.)\tView animal details\n" +
+                "4.)\tEdit an animal\n" +
+                "5.)\tDelete an animal\n" +
+                "6.)\tQuit\n");
 
         // runs the waitForInput method to get selection
         return waitForUserMenuInput("Please choose an option from the list above:");
@@ -49,7 +53,7 @@ public class MenuService {
             value = Integer.parseInt(input); // checks the input to see if it's an int
 
         } catch(Exception e){
-            System.out.println("\nPlease provide a valid menu selection.\n"); // runs if input isn't an int
+            System.out.println("Please provide a valid menu selection."); // runs if input isn't an int
 
             value = waitForUserMenuInput(message); // re-runs the method to check again for int
         }
@@ -79,7 +83,7 @@ public class MenuService {
         return command;
     }
 
-    public static String hasStringCheck(String message){
+    static String hasStringCheck(String message){
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -88,27 +92,23 @@ public class MenuService {
             System.out.println("Invalid entry! Please enter requested information.\n");
             input = hasStringCheck(message);
         }
-
         return input;
     }
 
-    public static int validNumberEnteredCheck(String message) {
+    static int validNumberEnteredCheck(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
-
         int value;
+
         try {
             value = Integer.parseInt(input) - 1;
-
-        } catch (Exception e) {
-            System.out.println("Invalid entry, please provide a valid selection.");
-
-            value = validNumberEnteredCheck(message);
+            } catch(Exception e){
+                System.out.println("Invalid entry, please provide valid input.");
+                value = validNumberEnteredCheck(message);
+            }
+            return value;
         }
-
-        return value;
-    }
 
     /**
      * Displays the animals that have been entered into the program.
@@ -122,7 +122,7 @@ public class MenuService {
             System.out.println("\n-*- List of Animals -*-\n");
 
             for (Animal animal : animals) {
-                System.out.println((animals.indexOf(animal)+1) + ".) " + animal.getName() + " " + animal.getSpecies());
+                System.out.println((animals.indexOf(animal)+1) + ".)\t" + animal.getName() + "\t" + animal.getSpecies());
             }
         }
     }
@@ -148,13 +148,29 @@ public class MenuService {
     }
 
     public static int viewAnimalDetails() {
-
-
         if(AnimalsService.listingAnimals().isEmpty()){
             animalToView = -1;
         } else {
-            animalToView = validNumberEnteredCheck("What is the numeric ID of the animal you want to view?: ");
+            animalToView = validNumberEnteredCheck("What is the numeric ID of the animal? ");
         }
         return animalToView;
+    }
+
+    public static boolean checkYesNoInput(String message){
+        System.out.println(message);
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+
+        if (input.toUpperCase().equals("YES")) {
+            command = true;
+            return command;
+        } else if (input.toUpperCase().equals("NO")) {
+            command = false;
+            return command;
+        } else {
+            invalidSelection();
+            checkYesNoInput(message);
+        }
+        return command;
     }
 }

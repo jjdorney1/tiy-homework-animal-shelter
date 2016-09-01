@@ -43,17 +43,7 @@ public class AnimalsService {
         if(animalToView >= allAnimalsListedArray.size() || animalToView < 0) {
                 System.out.println("Error, number invalid.");
             }else {
-                System.out.println(allAnimalsListedArray.toString());
-                //Animal animal = allAnimalsListedArray.get(animalToView);
-
-
-
-                /*
-                System.out.println("Name: " + animal.getName() +
-                        "\nSpecies: " + animal.getSpecies() +
-                        "\nBreed: " + animal.getBreed() +
-                        "\nDescription: " + animal.getDescription());
-                        */
+                System.out.println(allAnimalsListedArray.get(animalToView).toString());
             }
             return animalToReturn;
     }
@@ -64,18 +54,9 @@ public class AnimalsService {
      * Edit animal from the entered animals.
      *
      */
-    public static String editAnimalInformation(){
+    public static String editAnimalInformation(int animalToEdit){
 
-        if(!allAnimalsListedArray.isEmpty()) {
-
-            // makes sure a valid number is entered assigns to animalToChange
-            int animalToChange = MenuService.validNumberEnteredCheck("Please enter the number of animal to change: ");
-
-            if (animalToChange >= allAnimalsListedArray.size() || animalToChange < 0) {
-                System.out.println("Error, number invalid.");
-                editAnimalInformation();
-            } else {
-                Animal animal = allAnimalsListedArray.get(animalToChange);
+                Animal animal = allAnimalsListedArray.get(animalToEdit);
 
                 String animalName = noChangeOfData("Animal Name: ", animal.getName());
                 // newAnimal.add(0, animalName);
@@ -91,14 +72,14 @@ public class AnimalsService {
 
                 Animal newAnimal = new Animal(animalName, species, breed, description);
 
-                    allAnimalsListedArray.remove(animalToChange);
-                    allAnimalsListedArray.add(animalToChange, newAnimal);
+                    allAnimalsListedArray.remove(animalToEdit);
+                    allAnimalsListedArray.add(animalToEdit, newAnimal);
 
-            }
+
 
             return "Animal successfully edited.";
-        } else return "No animals present to edit.";
     }
+
 
 
     /**
@@ -109,28 +90,15 @@ public class AnimalsService {
      * @return
      *
      */
-    public static String deleteAnimalFromMemory(String message) {
+    public static void deleteAnimalFromMemory(int animalToDelete) {
 
-        if(!allAnimalsListedArray.isEmpty()) {
-            // makes sure a valid number is entered assigns to animalToChange
-            int animalToDelete = MenuService.validNumberEnteredCheck(message);
-
-            // checks to see if the animal to be deleted is NOT in the range of animals in the list
-            if (animalToDelete >= allAnimalsListedArray.size() || animalToDelete < 0) {
-                System.out.println("Error, number invalid.");
-                deleteAnimalFromMemory(message);
-
-            } else {
-
-                if(checkYesNoInput("Are you sure you want to delete this animal? (Yes/No) ")){
+                if(MenuService.checkYesNoInput("Are you sure you want to delete this animal? (Yes/No) ")){
                     System.out.print("Animal successfully deleted.");
                     allAnimalsListedArray.remove(animalToDelete);
                 } else System.out.print("Animal deletion canceled. Returning to the main menu.");
 
-            }
-            return "";
-        } else return "Sorry, no animals are present to be deleted.";
     }
+
 
     /*private static int validNumberEnteredCheck(String message) {
         System.out.println(message);
@@ -183,23 +151,6 @@ public class AnimalsService {
         return input;
     }
 
-    public static boolean checkYesNoInput(String message){
-        System.out.println(message);
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-
-        if (input.toUpperCase().equals("YES")) {
-            command = true;
-            return command;
-        } else if (input.toUpperCase().equals("NO")) {
-            command = false;
-            return command;
-        } else {
-            System.out.println("Sorry, not a valid choice.");
-            checkYesNoInput(message);
-        }
-        return command;
-    }
 }
 
 /**

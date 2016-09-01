@@ -38,15 +38,35 @@ public class Main {
 
                 if(animalToReturn < 0){
                     menuService.noAnimals();
+                } else if(animalToReturn >= AnimalsService.listingAnimals().size()) {
+                    menuService.invalidSelection();
                 } else {
                     AnimalsService.viewAnimalDetails(animalToReturn);
                 }
 
             } else if(action == MenuService.EDIT_ANIMAL){
-                System.out.println(AnimalsService.editAnimalInformation());
+                int animalToEdit = MenuService.viewAnimalDetails();
+
+                if(animalToEdit < 0) {
+                    menuService.noAnimals();
+                } else if(animalToEdit >= AnimalsService.listingAnimals().size()) {
+                    menuService.invalidSelection();
+                } else {
+                    AnimalsService.editAnimalInformation(animalToEdit);
+                }
+
+
 
             } else if(action == MenuService.DELETE_ANIMAL){
-                System.out.println(AnimalsService.deleteAnimalFromMemory("Enter the animal you wish to delete."));
+                int animalToDelete = MenuService.viewAnimalDetails();
+
+                if(animalToDelete < 0){
+                    menuService.noAnimals();
+                } else if(animalToDelete >= AnimalsService.listingAnimals().size()) {
+                    menuService.invalidSelection();
+                } else {
+                    AnimalsService.deleteAnimalFromMemory(animalToDelete);
+                }
 
             } else if(action == MenuService.QUIT){
                 if(MenuService.quitMenu("Are you sure you want to quit? (Yes/No)"))
