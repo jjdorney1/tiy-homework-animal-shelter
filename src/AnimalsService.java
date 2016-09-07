@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,29 +8,39 @@ import java.util.Scanner;
  */
 public class AnimalsService {
 
-    private static boolean command = false;
-    private static ArrayList<Animal> allAnimalsListedArray = new ArrayList<>();
+    // unused COMMAND object
+    // private static boolean command = false;
+
+    // private MenuService menuService;
+
+    // creates a new animal repository object to hold animals
+    private AnimalRepository animalRepository = new AnimalRepository("animals.json");
+
+    // creates a new array list of animal to store animals
+    private ArrayList<Animal> allAnimalsListedArray = new ArrayList<>();
+
+    public AnimalsService(AnimalRepository animalRepository) throws IOException {
+        this.animalRepository = animalRepository;
+    }
 
     /**
      * FUNCTION 1:
-     *
+     * <p>
      * Returns animals when called.
-     *
      */
-    public static ArrayList<Animal> listingAnimals() {
-        return allAnimalsListedArray;
+    public ArrayList<Animal> listingAnimals() {
+        return animalRepository.listingAnimals();
     }
 
     /**
      * FUNCTION 2:
-     *
+     * <p>
      * Adds an animal to the allAnimalsListedArray when called.
-     *
      */
-    public static void addingAnimal(Animal animalToAdd) {
-        allAnimalsListedArray.add(allAnimalsListedArray.size(), animalToAdd);
+    public void addingAnimal(Animal animalToAdd) {
+        allAnimalsListedArray.add(animalToAdd);
 
-        MenuService.success();
+        // menuService.success();
     }
 
     /*
@@ -38,64 +49,60 @@ public class AnimalsService {
      * Views animal details when selected from the main menu.
      *
      */
-    public static Animal viewAnimalDetails(int animalToView) {
+    public Animal viewAnimalDetails(int animalToView) {
         Animal animalToReturn = allAnimalsListedArray.get(animalToView);
-        if(animalToView >= allAnimalsListedArray.size() || animalToView < 0) {
-                System.out.println("Error, number invalid.");
-            }else {
-                System.out.println(allAnimalsListedArray.get(animalToView).toString());
-            }
-            return animalToReturn;
+        if (animalToView >= allAnimalsListedArray.size() || animalToView < 0) {
+            System.out.println("Error, number invalid.");
+        } else {
+            System.out.println(allAnimalsListedArray.get(animalToView).toString());
+        }
+        return animalToReturn;
     }
 
     /**
      * Function 4:
-     *
+     * <p>
      * Edit animal from the entered animals.
-     *
      */
-    public static String editAnimalInformation(int animalToEdit){
+    public String editAnimalInformation(int animalToEdit) {
 
-                Animal animal = allAnimalsListedArray.get(animalToEdit);
+        Animal animal = animalRepository.allAnimalsListed.get(animalToEdit);
 
-                String animalName = noChangeOfData("Animal Name: ", animal.getName());
-                // newAnimal.add(0, animalName);
+        String animalName = noChangeOfData("Animal Name: ", animal.getName());
+        // newAnimal.add(0, animalName);
 
-                String species = noChangeOfData("Species: ", animal.getSpecies());
-                // newAnimal.add(1, species);
+        String species = noChangeOfData("Species: ", animal.getSpecies());
+        // newAnimal.add(1, species);
 
-                String breed = noChangeOfData("Breed (optional): ", animal.getBreed());
-                // newAnimal.add(2, breed);
+        String breed = noChangeOfData("Breed (optional): ", animal.getBreed());
+        // newAnimal.add(2, breed);
 
-                String description = noChangeOfData("Description: ", animal.getDescription());
-                // newAnimal.add(3, description);
+        String description = noChangeOfData("Description: ", animal.getDescription());
+        // newAnimal.add(3, description);
 
-                Animal newAnimal = new Animal(animalName, species, breed, description);
+        Animal newAnimal = new Animal(animalName, species, breed, description);
 
-                    allAnimalsListedArray.remove(animalToEdit);
-                    allAnimalsListedArray.add(animalToEdit, newAnimal);
+        animalRepository.allAnimalsListed.remove(animalToEdit);
+        animalRepository.allAnimalsListed.add(animalToEdit, newAnimal);
 
-
-
-            return "Animal successfully edited.";
+        return "Animal successfully edited.";
     }
-
 
 
     /**
      * Function 5:
-     *
+     * <p>
      * Delete animal from the entered animals.
+     *
      * @param animalToDelete
      * @return
-     *
      */
-    public static void deleteAnimalFromMemory(int animalToDelete) {
+    public void deleteAnimalFromMemory(int animalToDelete) throws IOException {
 
-                if(MenuService.checkYesNoInput("Are you sure you want to delete this animal? (Yes/No) ")){
-                    System.out.print("Animal successfully deleted.");
-                    allAnimalsListedArray.remove(animalToDelete);
-                } else System.out.print("Animal deletion canceled. Returning to the main menu.");
+        if (MenuService.checkYesNoInput("Are you sure you want to delete this animal? (Yes/No) ")) {
+            System.out.println("Animal successfully deleted.");
+            animalRepository.deleteAnimal(animalToDelete);
+        } else System.out.println("Animal deletion canceled. Returning to the main menu.");
 
     }
 
@@ -119,8 +126,7 @@ public class AnimalsService {
    }*/
 
 
-
-    public static void listingAnimalDetails(ArrayList<String> animals, int animalNumber) {
+    public void listingAnimalDetails(ArrayList<String> animals, int animalNumber) {
         System.out.println(animals.get(animalNumber));
 
     }
@@ -140,12 +146,12 @@ public class AnimalsService {
     }
     */
 
-    public static String noChangeOfData(String message, String currentString){
+    public String noChangeOfData(String message, String currentString) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
-        if(input.isEmpty()){
+        if (input.isEmpty()) {
             input = currentString;
         }
         return input;
@@ -158,14 +164,46 @@ public class AnimalsService {
  * Given x,
  * When y,
  * Then z
+ * <p>
+ * TEST FORMAT:
+ * <p>
+ * Arrange
+ * <p>
+ * Act
+ * <p>
+ * Assert
+ * <p>
+ * TEST FORMAT:
+ * <p>
+ * Arrange
+ * <p>
+ * Act
+ * <p>
+ * Assert
+ * <p>
+ * TEST FORMAT:
+ * <p>
+ * Arrange
+ * <p>
+ * Act
+ * <p>
+ * Assert
+ * <p>
+ * TEST FORMAT:
+ * <p>
+ * Arrange
+ * <p>
+ * Act
+ * <p>
+ * Assert
  */
 
 /**
-* TEST FORMAT:
-*
-* Arrange
-*
-* Act
-*
-* Assert
-*/
+ * TEST FORMAT:
+ *
+ * Arrange
+ *
+ * Act
+ *
+ * Assert
+ */

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -6,6 +7,7 @@ import java.util.Scanner;
  */
 public class MenuService {
 
+    final static int QUICK_EXIT = 0;
     final static int LIST_ANIMALS = 1;
     final static int CREATE_ANIMAL = 2;
     final static int VIEW_ANIMAL = 3;
@@ -17,12 +19,19 @@ public class MenuService {
     // command for quitMenu function
     private static boolean command = false;
 
+    private AnimalRepository animalRepository = new AnimalRepository("animals.json");
+    private AnimalsService animalsService = new AnimalsService(animalRepository);
+
+    public MenuService() throws IOException {
+    }
+
     // called when no animals are present
     void noAnimals() {
         System.out.println("No animals entered.");
     }
 
-    static void invalidSelection() {
+    // called when the selection is invalid
+    void invalidSelection() {
         System.out.println("Invalid selection.");
     }
 
@@ -42,7 +51,7 @@ public class MenuService {
         return waitForUserMenuInput("Please choose an option from the list above:");
     }
 
-    public static int waitForUserMenuInput(String message) {
+    public int waitForUserMenuInput(String message) {
 
         System.out.println(message);        // prints out input message
         Scanner scanner = new Scanner(System.in); // new scanner for input
@@ -52,7 +61,7 @@ public class MenuService {
         try {
             value = Integer.parseInt(input); // checks the input to see if it's an int
 
-        } catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Please provide a valid menu selection."); // runs if input isn't an int
 
             value = waitForUserMenuInput(message); // re-runs the method to check again for int
@@ -60,20 +69,20 @@ public class MenuService {
         return value;
     }
 
-    public static void success(){
+    public void success() {
         System.out.println("Success!");
     }
 
-    public static boolean quitMenu(String message){
+    public boolean quitMenu(String message) {
 
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String inputValue = scanner.nextLine();
 
-        if(inputValue.toUpperCase().equals("YES")) {
+        if (inputValue.toUpperCase().equals("YES")) {
             System.out.println("\nThanks for using this program!");
             command = true;
-        } else if(inputValue.toUpperCase().equals("NO")) {
+        } else if (inputValue.toUpperCase().equals("NO")) {
             command = false;
         } else {
             System.out.println("\nInput Error: please enter a valid response.\n");
@@ -83,19 +92,19 @@ public class MenuService {
         return command;
     }
 
-    static String hasStringCheck(String message){
+    String hasStringCheck(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
-        if(input.isEmpty()){
+        if (input.isEmpty()) {
             System.out.println("Invalid entry! Please enter requested information.\n");
             input = hasStringCheck(message);
         }
         return input;
     }
 
-    static int validNumberEnteredCheck(String message) {
+    int validNumberEnteredCheck(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -103,31 +112,32 @@ public class MenuService {
 
         try {
             value = Integer.parseInt(input) - 1;
-            } catch(Exception e){
-                System.out.println("Invalid entry, please provide valid input.");
-                value = validNumberEnteredCheck(message);
-            }
-            return value;
+        } catch (Exception e) {
+            System.out.println("Invalid entry, please provide valid input.");
+            value = validNumberEnteredCheck(message);
         }
+        return value;
+    }
 
     /**
      * Displays the animals that have been entered into the program.
+     *
      * @param animals
      */
-    public static void animalListingDisplay(ArrayList<Animal> animals){
+    public void animalListingDisplay(ArrayList<Animal> animals) {
 
-        if(animals.isEmpty()){
+        if (animals.isEmpty()) {
             System.out.println("No animals entered yet, please create an animal.");
         } else {
             System.out.println("\n-*- List of Animals -*-\n");
 
             for (Animal animal : animals) {
-                System.out.println((animals.indexOf(animal)+1) + ".)\t" + animal.getName() + "\t" + animal.getSpecies());
+                System.out.println((animals.indexOf(animal) + 1) + ".)\t" + animal.getName() + "\t" + animal.getSpecies());
             }
         }
     }
 
-    public static Animal createAnAnimal(){
+    public Animal createAnAnimal() {
 
         // scanner to gather input
         Scanner scanner = new Scanner(System.in);
@@ -147,8 +157,8 @@ public class MenuService {
 
     }
 
-    public static int viewAnimalDetails() {
-        if(AnimalsService.listingAnimals().isEmpty()){
+    public int viewAnimalDetails() {
+        if (animalRepository.listingAnimals().isEmpty()) {
             animalToView = -1;
         } else {
             animalToView = validNumberEnteredCheck("What is the numeric ID of the animal? ");
@@ -156,7 +166,11 @@ public class MenuService {
         return animalToView;
     }
 
-    public static boolean checkYesNoInput(String message){
+    public void printAnimalDetails(Animal animal){
+        System.out.println(animal.toString());
+    }
+
+    public static boolean checkYesNoInput(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
@@ -168,7 +182,7 @@ public class MenuService {
             command = false;
             return command;
         } else {
-            invalidSelection();
+            //invalidSelection();
             checkYesNoInput(message);
         }
         return command;
