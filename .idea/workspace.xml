@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="39744054-40bd-469d-b978-9ce5bf0c7a77" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/c18a4799-553f-40c5-985c-ad5789c76c62.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tiy-homework-animal-shelter/Main.class" afterPath="$PROJECT_DIR$/out/production/tiy-homework-animal-shelter/Main.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/tiy-homework-animal-shelter/MenuService.class" afterPath="$PROJECT_DIR$/out/production/tiy-homework-animal-shelter/MenuService.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/animals.json" afterPath="$PROJECT_DIR$/animals.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AnimalRepository.java" afterPath="$PROJECT_DIR$/src/AnimalRepository.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/AnimalsService.java" afterPath="$PROJECT_DIR$/src/AnimalsService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Main.java" afterPath="$PROJECT_DIR$/src/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/MenuService.java" afterPath="$PROJECT_DIR$/src/MenuService.java" />
-    </list>
+    <list default="true" id="39744054-40bd-469d-b978-9ce5bf0c7a77" name="Default" comment="" />
     <ignored path="tiy-homework-animal-shelter.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/out/" />
@@ -768,12 +756,12 @@
       <workItem from="1472846814459" duration="698000" />
       <workItem from="1472927244571" duration="24352000" />
       <workItem from="1473363211296" duration="256000" />
-      <workItem from="1473363651479" duration="4512000" />
+      <workItem from="1473363651479" duration="4605000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="106777000" />
+    <option name="totallyTimeSpent" value="106870000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1366" height="768" extended-state="0" />
