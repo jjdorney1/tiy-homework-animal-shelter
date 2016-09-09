@@ -1,20 +1,20 @@
 [
   {
-    "name": "Nikki",
-    "species": "Dog",
-    "breed": "Entlebucher",
-    "description": "Nervous"
-  },
-  {
-    "name": "Oscar",
-    "species": "Cat",
+    "name": "oscar",
+    "species": "cat",
     "breed": "",
-    "description": "Cute"
+    "description": "lazy"
   },
   {
     "name": "Emmy",
     "species": "Cat",
     "breed": "",
     "description": "Loud"
+  },
+  {
+    "name": "Nikki",
+    "species": "Dog",
+    "breed": "Entlebucher",
+    "description": "Nervous"
   }
 ]

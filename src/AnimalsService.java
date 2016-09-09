@@ -17,7 +17,7 @@ public class AnimalsService {
     private AnimalRepository animalRepository = new AnimalRepository("animals.json");
 
     // creates a new array list of animal to store animals
-    private ArrayList<Animal> allAnimalsListedArray = new ArrayList<>();
+    // private ArrayList<Animal> allAnimalsListedArray = new ArrayList<>();
 
     public AnimalsService(AnimalRepository animalRepository) throws IOException {
         this.animalRepository = animalRepository;
@@ -37,10 +37,8 @@ public class AnimalsService {
      * <p>
      * Adds an animal to the allAnimalsListedArray when called.
      */
-    public void addingAnimal(Animal animalToAdd) {
-        allAnimalsListedArray.add(animalToAdd);
-
-        // menuService.success();
+    public void addingAnimal(Animal animalToAdd) throws IOException {
+        animalRepository.addingAnimal(animalToAdd);
     }
 
     /*
@@ -49,7 +47,7 @@ public class AnimalsService {
      * Views animal details when selected from the main menu.
      *
      */
-    public Animal viewAnimalDetails(int animalToView) {
+    /*public Animal viewAnimalDetails(int animalToView) {
         Animal animalToReturn = allAnimalsListedArray.get(animalToView);
         if (animalToView >= allAnimalsListedArray.size() || animalToView < 0) {
             System.out.println("Error, number invalid.");
@@ -57,14 +55,14 @@ public class AnimalsService {
             System.out.println(allAnimalsListedArray.get(animalToView).toString());
         }
         return animalToReturn;
-    }
+    }*/
 
     /**
      * Function 4:
      * <p>
      * Edit animal from the entered animals.
      */
-    public String editAnimalInformation(int animalToEdit) {
+    /*public String editAnimalInformation(int animalToEdit) {
 
         Animal animal = animalRepository.allAnimalsListed.get(animalToEdit);
 
@@ -86,7 +84,7 @@ public class AnimalsService {
         animalRepository.allAnimalsListed.add(animalToEdit, newAnimal);
 
         return "Animal successfully edited.";
-    }
+    }*/
 
 
     /**

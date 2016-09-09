@@ -1,53 +1,63 @@
+// import java.awt.*;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
+ * Menu Service to output data and collect information from user.
  * Created by jeffreydorney on 8/19/16.
  */
+
 public class MenuService {
 
     final static int QUICK_EXIT = 0;
-    final static int LIST_ANIMALS = 1;
-    final static int CREATE_ANIMAL = 2;
+    final static int CREATE_ANIMAL = 1;
+    final static int MANAGE_ANIMAL = 2;
+    final static int LIST_ANIMALS = 2;
     final static int VIEW_ANIMAL = 3;
+    final static int MANAGE_ANIMAL_TYPE = 3;
     final static int EDIT_ANIMAL = 4;
     final static int DELETE_ANIMAL = 5;
+    final static int MAIN_MENU_QUIT = 4;
     final static int QUIT = 6;
+    final static int ADD_NOTE = 1; // temporary object for notes
+
     private static int animalToView = 0;
 
-    // command for quitMenu function
-    private static boolean command = false;
+    private static boolean command = false; // command for quitMenu function
 
     private AnimalRepository animalRepository = new AnimalRepository("animals.json");
-    private AnimalsService animalsService = new AnimalsService(animalRepository);
+    // private AnimalsService animalsService = new AnimalsService(animalRepository);
 
-    public MenuService() throws IOException {
-    }
-
-    // called when no animals are present
-    void noAnimals() {
-        System.out.println("No animals entered.");
-    }
-
-    // called when the selection is invalid
-    void invalidSelection() {
-        System.out.println("Invalid selection.");
-    }
+    public MenuService() throws IOException {}
 
     // prompt for the main menu
     public int mainMenuPrompt() {
 
         System.out.println("\n-*- Main Menu -*-\n" +
                 "\n" +
-                "1.)\tList animals\n" +
-                "2.)\tCreate an animal\n" +
-                "3.)\tView animal details\n" +
-                "4.)\tEdit an animal\n" +
-                "5.)\tDelete an animal\n" +
-                "6.)\tQuit\n");
+                "1.)\tCreate An Animal\n" +
+                "2.)\tManage An Animal\n" +
+                "3.)\tManage Animal Types\n" +
+                "4.)\tQuit\n");
 
         // runs the waitForInput method to get selection
+        return waitForUserMenuInput("Please choose an option from the list above:");
+    }
+
+    public int manageAnimalMenuPrompt() {
+
+        System.out.println("\n-*- Manage Animal Menu -*-\n" +
+                "\n" +
+                "1.)\tAdd A Note\n" +
+                "2.)\tList Animals\n" +
+                "3.)\tView Animal Details\n" +
+                "4.)\tEdit An Animal\n" +
+                "5.)\tDelete An Animal\n" +
+                "6.)\tMain Menu\n");
+
+        // runs the waitForUserMenuInput method to get selection
         return waitForUserMenuInput("Please choose an option from the list above:");
     }
 
@@ -69,39 +79,26 @@ public class MenuService {
         return value;
     }
 
-    public void success() {
-        System.out.println("Success!");
-    }
-
-    public boolean quitMenu(String message) {
-
+    String hasStringCheck(String message, boolean required) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
-        String inputValue = scanner.nextLine();
+        String input = scanner.nextLine();
 
-        if (inputValue.toUpperCase().equals("YES")) {
-            System.out.println("\nThanks for using this program!");
-            command = true;
-        } else if (inputValue.toUpperCase().equals("NO")) {
-            command = false;
-        } else {
-            System.out.println("\nInput Error: please enter a valid response.\n");
-            quitMenu(message);
+        if (input.isEmpty() && required) {
+            System.out.println("Invalid entry! Please enter requested information.\n");
+            input = hasStringCheck(message, required);
         }
-
-        return command;
+        return input;
     }
 
-    String hasStringCheck(String message) {
+    String hasStringCheck(String message, String previousData) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
 
         if (input.isEmpty()) {
-            System.out.println("Invalid entry! Please enter requested information.\n");
-            input = hasStringCheck(message);
-        }
-        return input;
+            return previousData;
+        } else return input;
     }
 
     int validNumberEnteredCheck(String message) {
@@ -127,7 +124,7 @@ public class MenuService {
     public void animalListingDisplay(ArrayList<Animal> animals) {
 
         if (animals.isEmpty()) {
-            System.out.println("No animals entered yet, please create an animal.");
+            noAnimalsEnteredError();
         } else {
             System.out.println("\n-*- List of Animals -*-\n");
 
@@ -139,24 +136,21 @@ public class MenuService {
 
     public Animal createAnAnimal() {
 
-        // scanner to gather input
-        Scanner scanner = new Scanner(System.in);
-
         // printed request for info
         System.out.println("\nPlease enter the following information:\n");
 
         // gathers the name, species, breed (optional), and description
-        String name = hasStringCheck("Animal Name: ");
-        String species = hasStringCheck("Species: ");
-        System.out.println("Breed (optional): ");
-        String breed = scanner.nextLine();
-        String description = hasStringCheck("Description: ");
+        String name = hasStringCheck("Animal Name: ", true);
+        String species = hasStringCheck("Species: ", true);
+        String breed = hasStringCheck("Breed (optional): ", false);
+        String description = hasStringCheck("Description: ", true);
 
         // returns the animal while applying all the gathered data
         return new Animal(name, species, breed, description);
 
     }
 
+    // collects the number of the animal to view
     public int viewAnimalDetails() {
         if (animalRepository.listingAnimals().isEmpty()) {
             animalToView = -1;
@@ -166,10 +160,12 @@ public class MenuService {
         return animalToView;
     }
 
+    // outputs animal details
     public void printAnimalDetails(Animal animal){
         System.out.println(animal.toString());
     }
 
+    // checks to see if the input is YES or NO
     public static boolean checkYesNoInput(String message) {
         System.out.println(message);
         Scanner scanner = new Scanner(System.in);
@@ -177,14 +173,57 @@ public class MenuService {
 
         if (input.toUpperCase().equals("YES")) {
             command = true;
-            return command;
         } else if (input.toUpperCase().equals("NO")) {
             command = false;
-            return command;
         } else {
             //invalidSelection();
+            System.out.println("Input Error: please enter a valid response.");
             checkYesNoInput(message);
         }
         return command;
     }
+
+    public Animal editAnimal(Animal animal){
+        boolean changeAnimalConfirm = checkYesNoInput("Are you sure you want to edit this animal?");
+
+        if (changeAnimalConfirm){
+
+            String newAnimalName = hasStringCheck(String.format("Name [%s]:", animal.getName()), animal.getName());
+            String newSpecies = hasStringCheck(String.format("Species [%s]:", animal.getSpecies()), animal.getSpecies());
+            String newBreed = hasStringCheck(String.format("Breed (Optional) [%s]:", animal.getBreed()), animal.getBreed());
+            String newDescription = hasStringCheck(String.format("Description (Optional) [%s]:", animal.getDescription()), animal.getDescription());
+
+            return new Animal(newAnimalName, newSpecies, newBreed, newDescription);
+
+        } else {
+            returningToMainMenu();
+            return animal;
+        }
+
+    }
+
+    /*
+     * Basic Error/Status Messages
+     */
+
+    // called when no animals are present
+    void noAnimalsEnteredError(){
+        System.out.println("No animals entered yet.");
+    }
+
+    // called when returning to main menu
+    void returningToMainMenu(){
+        System.out.println("Returning you to the Main Menu.");
+    }
+
+    // called when process completes successfully
+    void success() {
+        System.out.println("Success!");
+    }
+
+    // called when the selection is invalid
+    void invalidSelection() {
+        System.out.println("Invalid selection.");
+    }
+
 }

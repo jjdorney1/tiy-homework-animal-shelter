@@ -28,11 +28,7 @@ public class AnimalRepository {
     private Gson gson;
 
     // new array list of animal class
-    public ArrayList<Animal> allAnimalsListed = new ArrayList<>();
-
-    // menu service constructor
-    // private MenuService menuService;
-
+    private ArrayList<Animal> allAnimalsListed = new ArrayList<>();
 
     public AnimalRepository(String fileName) throws IOException {
         gson = new GsonBuilder().setPrettyPrinting().create();
@@ -54,16 +50,23 @@ public class AnimalRepository {
 
     public void addingAnimal(Animal animalToAdd) throws IOException {
         allAnimalsListed.add(animalToAdd);
-
         save();
-
-        // menuService.success();
     }
 
     private void save() throws IOException {
         String json = gson.toJson(allAnimalsListed);
         Files.write(filePath, json.getBytes());
 
+    }
+
+    public boolean noAnimalsEntered(){
+        if(allAnimalsListed.isEmpty()){
+            return true;
+        } else return false;
+    }
+
+    public int getAnimalsEnteredSize(){
+        return allAnimalsListed.size();
     }
 
     public ArrayList<Animal> listingAnimals(){
@@ -76,7 +79,12 @@ public class AnimalRepository {
 
     public void deleteAnimal(int animalToDelete) throws IOException {
         allAnimalsListed.remove(animalToDelete);
+        save();
+    }
 
+    public void editAnimalUpdate(Animal animalToAdd, int animalToRemove) throws IOException {
+        allAnimalsListed.remove(animalToRemove);
+        allAnimalsListed.add(animalToRemove, animalToAdd);
         save();
     }
 }
