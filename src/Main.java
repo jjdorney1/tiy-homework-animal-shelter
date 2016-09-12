@@ -3,6 +3,8 @@
 // import com.google.gson.Gson;
 
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -12,13 +14,13 @@ import java.util.ArrayList;
  * Version 1.1 Completed 9/1/16 √
  * Version 1.1.x - some tweaks and progress on 1.2
  * Version 1.2 Completed 9/7/16 √
- * Version 1.2.x - streamlining code for use with 1.4
+ * Version 1.2.1 - corrected encapsulation errors, menu altered pre-1.4
  * Version 1.3 Completed ?/?/16 x
  * Version 1.4 Completed ?/?/16 x
  */
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
 
         // creates a new animal repository from "animals.json"
         AnimalRepository animalRepository = new AnimalRepository("animals.json");
@@ -70,27 +72,36 @@ public class Main {
 
                     int animalAction = menuService.manageAnimalMenuPrompt();
 
+
+                    // LIST ANIMALS
+
+
                     if (animalAction == MenuService.LIST_ANIMALS /* Sub Option 2 */) {
                         // creates new ArrayList of Animal, calls on listing animals in animal service
                         ArrayList<Animal> animals = animalsService.listingAnimals();
 
                         // calls on animalListingDisplay passing in the created ArrayList
-                        menuService.animalListingDisplay(animals);
+                        //menuService.animalListingDisplay(animals);
+
+                        //ResultSet animalViewResultSet =;
+                        animalsService.listingAllAnimals();
+                        //System.out.println(animalViewResultSet);
+
+
+                        // VIEW ANIMAL DETAILS
+
 
                     } else if (animalAction == MenuService.VIEW_ANIMAL /* Sub Option 3 */) {
 
                         // retrieves the number to be VIEWED
                         int animalToReturn = menuService.viewAnimalDetails();
 
-                        // sets variable for range check
-                        int animalsAvailable = animalRepository.getAnimalsEnteredSize();
-
                         if (animalRepository.noAnimalsEntered()) {
 
                             // IF no animals THEN it calls no animals method
                             menuService.noAnimalsEnteredError();
 
-                        } else if (animalToReturn >= animalsAvailable || animalToReturn < 0) {
+                        } else if (!animalRepository.validAnimalCheck(animalToReturn)) {
 
                             // ELSE IF range is wrong THEN it calls invalid selection method
                             menuService.invalidSelection();
@@ -103,19 +114,21 @@ public class Main {
                         }
 
 
+                        // EDIT ANIMAL DETAILS
+
+
                         // EDIT FUNCTION DOESN'T PERSIST UNLESS ANOTHER ANIMAL ADDED
                     } else if (animalAction == MenuService.EDIT_ANIMAL /* Sub Option 4 */) {
 
                         // retrieves the number to be EDITED
                         int animalToEditNumber = menuService.viewAnimalDetails();
-                        Animal animalToEdit = animalRepository.viewAnimalDetails(animalToEditNumber);
 
                         if (animalRepository.noAnimalsEntered()) {
 
                             // IF no animals THEN it calls no animals method
                             menuService.noAnimalsEnteredError();
 
-                        } else if (animalToEditNumber >= animalsService.listingAnimals().size()) {
+                        } else if (!animalRepository.validAnimalCheck(animalToEditNumber)) {
 
                             // ELSE IF range is wrong THEN it calls invalid selection method
                             menuService.invalidSelection();
@@ -123,33 +136,63 @@ public class Main {
                         } else {
 
                             // ELSE number is valid it will call EDIT method
+                            Animal animalToEdit = animalRepository.viewAnimalDetails(animalToEditNumber);
                             animalRepository.editAnimalUpdate(menuService.editAnimal(animalToEdit), animalToEditNumber);
                         }
 
-                        // DELETE ANIMAL SELECTION
+
+                        // DELETE ANIMAL
+
+
                     } else if (animalAction == MenuService.DELETE_ANIMAL /* Sub Option 5 */) {
 
                         // retrieves the number to be DELETED
                         int animalToDelete = menuService.viewAnimalDetails();
 
-                        if (animalToDelete < 0) {
-
-                            // IF no animals THEN it calls no animals method
+                        // IF no animals THEN it calls no animals method
+                        // ELSE IF range is wrong THEN it calls invalid selection method
+                        if (animalRepository.noAnimalsEntered()) {
                             menuService.noAnimalsEnteredError();
-
-                        } else if (animalToDelete >= animalsService.listingAnimals().size()) {
-
-                            // ELSE IF range is wrong THEN it calls invalid selection method
+                        } else if (!animalRepository.validAnimalCheck(animalToDelete)) {
                             menuService.invalidSelection();
 
                         } else {
 
                             // ELSE number is valid it will call DELETE method
-                            animalsService.deleteAnimalFromMemory(animalToDelete);
+                            if(animalsService.deleteAnimalFromMemory(animalToDelete)){
+                                menuService.success();
+                            } else menuService.cancelled();
                         }
 
+
+                        // ADD NOTE FOR ANIMAL
+
+
                     } else if (animalAction == MenuService.ADD_NOTE /* Sub Option 1 */) {
-                        System.out.println("Sorry, function not implemented yet.");
+
+                        System.out.println("Option not implemented yet.");
+
+                        /*
+                        int animalToAddNote = menuService.viewAnimalDetails();
+
+                        // IF no animals THEN it calls no animals method
+                        // ELSE IF range is wrong THEN it calls invalid selection method
+                        if (animalRepository.noAnimalsEntered()) {
+                            menuService.noAnimalsEnteredError();
+                        } else if (!animalRepository.validAnimalCheck(animalToAddNote)) {
+                            menuService.invalidSelection();
+
+                        } else {
+
+                            // ELSE number is valid it will call ADD NOTE method
+                            String newNote = menuService.hasStringCheck("Please enter the note to be saved:", true);
+                            animalRepository.addAnimalNote(animalToAddNote, newNote);
+                        }
+                        */
+
+
+                        // QUIT PROGRAM
+
 
                     } else if (animalAction == MenuService.QUIT /* Sub Option 6 */) {
 

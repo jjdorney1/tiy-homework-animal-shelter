@@ -22,8 +22,8 @@
     <schema id="7" parent="1" name="public">
       <object-id>2200</object-id>
       <visible>1</visible>
-      <introspection-state-number>1201</introspection-state-number>
-      <introspection-timestamp>2016-09-07.16:26:58.293</introspection-timestamp>
+      <introspection-state-number>1213</introspection-state-number>
+      <introspection-timestamp>2016-09-09.14:04:10.651</introspection-timestamp>
     </schema>
     <schema id="8" parent="1" name="pg_catalog">
       <object-id>11</object-id>
@@ -269,8 +269,8 @@
       <data-type>integer|0</data-type>
       <default-expression>nextval('notes_animalnoteid_seq'::regclass)</default-expression>
     </column>
-    <column id="55" parent="22" name="animalrefid">
-      <state-number>1165</state-number>
+    <column id="55" parent="22" name="animalid">
+      <state-number>1213</state-number>
       <mandatory>1</mandatory>
       <data-type>integer|0</data-type>
     </column>
@@ -299,7 +299,7 @@
     </key>
     <foreign-key id="60" parent="22" name="notes_animals_animalid_fk">
       <object-id>16757</object-id>
-      <columns>animalrefid</columns>
+      <columns>animalid</columns>
       <ref-key>~.animals.animals_pkey</ref-key>
       <cascade-update-rule>restrict</cascade-update-rule>
       <cascade-delete-rule>restrict</cascade-delete-rule>

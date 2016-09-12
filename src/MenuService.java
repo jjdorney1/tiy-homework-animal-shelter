@@ -1,8 +1,9 @@
-// import java.awt.*;
-
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 
 /**
  * Menu Service to output data and collect information from user.
@@ -14,14 +15,14 @@ public class MenuService {
     final static int QUICK_EXIT = 0;
     final static int CREATE_ANIMAL = 1;
     final static int MANAGE_ANIMAL = 2;
-    final static int LIST_ANIMALS = 2;
-    final static int VIEW_ANIMAL = 3;
+    final static int LIST_ANIMALS = 4;
+    final static int VIEW_ANIMAL = 5;
     final static int MANAGE_ANIMAL_TYPE = 3;
-    final static int EDIT_ANIMAL = 4;
-    final static int DELETE_ANIMAL = 5;
+    final static int EDIT_ANIMAL = 1;
+    final static int DELETE_ANIMAL = 2;
     final static int MAIN_MENU_QUIT = 4;
     final static int QUIT = 6;
-    final static int ADD_NOTE = 1; // temporary object for notes
+    final static int ADD_NOTE = 3; // temporary object for notes
 
     private static int animalToView = 0;
 
@@ -30,7 +31,7 @@ public class MenuService {
     private AnimalRepository animalRepository = new AnimalRepository("animals.json");
     // private AnimalsService animalsService = new AnimalsService(animalRepository);
 
-    public MenuService() throws IOException {}
+    public MenuService() throws IOException, SQLException {}
 
     // prompt for the main menu
     public int mainMenuPrompt() {
@@ -50,11 +51,11 @@ public class MenuService {
 
         System.out.println("\n-*- Manage Animal Menu -*-\n" +
                 "\n" +
-                "1.)\tAdd A Note\n" +
-                "2.)\tList Animals\n" +
-                "3.)\tView Animal Details\n" +
-                "4.)\tEdit An Animal\n" +
-                "5.)\tDelete An Animal\n" +
+                "1.)\tEdit An Animal\n" +
+                "2.)\tDelete An Animal\n" +
+                "3.)\tAdd A Note\n*\n" +
+                "4.)\tList Animals\n" +
+                "5.)\tView Animal Details\n" +
                 "6.)\tMain Menu\n");
 
         // runs the waitForUserMenuInput method to get selection
@@ -134,16 +135,18 @@ public class MenuService {
         }
     }
 
-    public Animal createAnAnimal() {
+    public Animal createAnAnimal() throws IOException {
 
         // printed request for info
-        System.out.println("\nPlease enter the following information:\n");
+        System.out.println("\n-*- Animal Creation -*-\n");
+        System.out.println("Please enter the following information:\n");
 
         // gathers the name, species, breed (optional), and description
         String name = hasStringCheck("Animal Name: ", true);
         String species = hasStringCheck("Species: ", true);
         String breed = hasStringCheck("Breed (optional): ", false);
         String description = hasStringCheck("Description: ", true);
+        // animalRepository.addAnimalNote(0, date());
 
         // returns the animal while applying all the gathered data
         return new Animal(name, species, breed, description);
@@ -152,7 +155,7 @@ public class MenuService {
 
     // collects the number of the animal to view
     public int viewAnimalDetails() {
-        if (animalRepository.listingAnimals().isEmpty()) {
+        if (animalRepository.noAnimalsEntered()) {
             animalToView = -1;
         } else {
             animalToView = validNumberEnteredCheck("What is the numeric ID of the animal? ");
@@ -186,12 +189,16 @@ public class MenuService {
     public Animal editAnimal(Animal animal){
         boolean changeAnimalConfirm = checkYesNoInput("Are you sure you want to edit this animal?");
 
+        System.out.println("\n-*- Edit An Animal -*-\n");
+
         if (changeAnimalConfirm){
 
             String newAnimalName = hasStringCheck(String.format("Name [%s]:", animal.getName()), animal.getName());
             String newSpecies = hasStringCheck(String.format("Species [%s]:", animal.getSpecies()), animal.getSpecies());
             String newBreed = hasStringCheck(String.format("Breed (Optional) [%s]:", animal.getBreed()), animal.getBreed());
             String newDescription = hasStringCheck(String.format("Description (Optional) [%s]:", animal.getDescription()), animal.getDescription());
+
+            success();
 
             return new Animal(newAnimalName, newSpecies, newBreed, newDescription);
 
@@ -202,9 +209,9 @@ public class MenuService {
 
     }
 
-    /*
-     * Basic Error/Status Messages
-     */
+    //                                     //
+    // *** Basic Error/Status Messages *** //
+    //                                     //
 
     // called when no animals are present
     void noAnimalsEnteredError(){
@@ -213,7 +220,7 @@ public class MenuService {
 
     // called when returning to main menu
     void returningToMainMenu(){
-        System.out.println("Returning you to the Main Menu.");
+        System.out.println("Returning you to the menu.");
     }
 
     // called when process completes successfully
@@ -226,4 +233,8 @@ public class MenuService {
         System.out.println("Invalid selection.");
     }
 
+    // called when operation is canceled
+    public void cancelled() {
+        System.out.println("Operation canceled.");
+    }
 }

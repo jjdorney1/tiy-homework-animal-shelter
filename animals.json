@@ -1,11 +1,5 @@
 [
   {
-    "name": "oscar",
-    "species": "cat",
-    "breed": "",
-    "description": "lazy"
-  },
-  {
     "name": "Emmy",
     "species": "Cat",
     "breed": "",
@@ -14,7 +8,7 @@
   {
     "name": "Nikki",
     "species": "Dog",
-    "breed": "Entlebucher",
+    "breed": "",
     "description": "Nervous"
   }
 ]

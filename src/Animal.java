@@ -1,4 +1,4 @@
-// import java.util.ArrayList;
+import java.util.ArrayList;
 
 /**
  * The animal constructor, accessors and modifiers.
@@ -10,6 +10,7 @@ public class Animal {
     private String species;
     private String breed;
     private String description;
+    // private ArrayList<String> notes;
 
     public Animal(String name, String species, String breed, String description) {
         setName(name);
@@ -66,5 +67,15 @@ public class Animal {
             System.out.println("Description cannot be empty!");
         }
     }
+
+    /*
+    public ArrayList<String> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(ArrayList<String> notes) {
+        this.notes = notes;
+    }
+    */
 }
 
