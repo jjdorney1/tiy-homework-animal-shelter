@@ -27,7 +27,7 @@ public class AnimalsService {
     }
 
     // Delete animal from the entered animals.
-    public boolean deleteAnimalFromMemory(int animalToDelete) throws IOException {
+    public boolean deleteAnimalFromMemory(int animalToDelete) throws IOException, SQLException {
 
         if (MenuService.checkYesNoInput("Are you sure you want to delete this animal? (Yes/No) ")) {
             animalRepository.deleteAnimal(animalToDelete);
@@ -35,14 +35,30 @@ public class AnimalsService {
         } else return false;
     }
 
-    public void listingAllAnimals() throws SQLException {
-        ResultSet resultSet = this.animalRepository.listAnimals();
+    public boolean deletingAnAnimal(int animalToDelete) throws IOException, SQLException {
 
-        while(resultSet.next()){
-            System.out.printf("%s.)\t%s\t%s\n",
-                    resultSet.getString("animalid"),
-                    resultSet.getString("animalname"),
-                    resultSet.getString("animaltype"));
+         if (MenuService.checkYesNoInput("Are you sure you want to delete this animal? (Yes/No) ")) {
+            animalRepository.deleteAnimal(animalToDelete);
+            return true;
+        } else return false;
+    }
+
+    public Animal viewAnimalDetails(ResultSet animalResult) throws SQLException {
+        int id;
+        String name = null;
+        String species = null;
+        String breed = null;
+        String description = null;
+
+        while(animalResult.next()){
+            id = animalResult.getInt("animalid");
+            name = animalResult.getString("animalname");
+            species = animalResult.getString("animaltype");
+            breed = animalResult.getString("animalbreed");
+            description = animalResult.getString("animaldescription");
+
         }
+
+        return new Animal(name, species, breed, description);
     }
 }

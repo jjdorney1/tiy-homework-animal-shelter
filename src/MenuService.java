@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -109,30 +110,12 @@ public class MenuService {
         int value;
 
         try {
-            value = Integer.parseInt(input) - 1;
+            value = Integer.parseInt(input);
         } catch (Exception e) {
             System.out.println("Invalid entry, please provide valid input.");
             value = validNumberEnteredCheck(message);
         }
         return value;
-    }
-
-    /**
-     * Displays the animals that have been entered into the program.
-     *
-     * @param animals
-     */
-    public void animalListingDisplay(ArrayList<Animal> animals) {
-
-        if (animals.isEmpty()) {
-            noAnimalsEnteredError();
-        } else {
-            System.out.println("\n-*- List of Animals -*-\n");
-
-            for (Animal animal : animals) {
-                System.out.println((animals.indexOf(animal) + 1) + ".)\t" + animal.getName() + "\t" + animal.getSpecies());
-            }
-        }
     }
 
     public Animal createAnAnimal() throws IOException {
@@ -207,6 +190,19 @@ public class MenuService {
             return animal;
         }
 
+    }
+
+    public void listingAllAnimals() throws SQLException {
+        ResultSet resultSet = this.animalRepository.listAnimals();
+
+        System.out.println("\n-*- All Animals -*-\n");
+
+        while(resultSet.next()){
+            System.out.printf("%s.)\t%s\t%s\n",
+                    resultSet.getString("animalid"),
+                    resultSet.getString("animalname"),
+                    resultSet.getString("animaltype"));
+        }
     }
 
     //                                     //

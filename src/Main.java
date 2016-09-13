@@ -14,7 +14,9 @@ import java.util.ArrayList;
  * Version 1.1 Completed 9/1/16 √
  * Version 1.1.x - some tweaks and progress on 1.2
  * Version 1.2 Completed 9/7/16 √
- * Version 1.2.1 - corrected encapsulation errors, menu altered pre-1.4
+ * Version 1.2.2 - corrected encapsulation errors, menu altered pre-1.4
+ * Version 1.2.3 - able to view data from database
+ * Version 1.2.4 - able to view from, delete from, and add to database
  * Version 1.3 Completed ?/?/16 x
  * Version 1.4 Completed ?/?/16 x
  */
@@ -30,6 +32,8 @@ public class Main {
 
         // create a new menu service for functions
         MenuService menuService = new MenuService();
+
+        Animal animal2 = new Animal("Test", "Cat", "Fuzzy", "Annoying");
 
         while (true) {
             int action = menuService.mainMenuPrompt();
@@ -84,7 +88,7 @@ public class Main {
                         //menuService.animalListingDisplay(animals);
 
                         //ResultSet animalViewResultSet =;
-                        animalsService.listingAllAnimals();
+                        menuService.listingAllAnimals();
                         //System.out.println(animalViewResultSet);
 
 
@@ -95,13 +99,14 @@ public class Main {
 
                         // retrieves the number to be VIEWED
                         int animalToReturn = menuService.viewAnimalDetails();
+                        ResultSet animalResultSet = animalRepository.viewAnimalDetails(animalToReturn);
 
                         if (animalRepository.noAnimalsEntered()) {
 
                             // IF no animals THEN it calls no animals method
                             menuService.noAnimalsEnteredError();
 
-                        } else if (!animalRepository.validAnimalCheck(animalToReturn)) {
+                        } else if (!animalRepository.validAnimalCheck(animalToReturn) || !animalRepository.validAnimalCheck(animalResultSet)) {
 
                             // ELSE IF range is wrong THEN it calls invalid selection method
                             menuService.invalidSelection();
@@ -109,7 +114,8 @@ public class Main {
                         } else {
 
                             // ELSE number is valid it will call VIEW method
-                            Animal animalToView = animalRepository.viewAnimalDetails(animalToReturn);
+                            ResultSet animalResult = animalRepository.findAnimalWithID(animalToReturn);
+                            Animal animalToView = animalsService.viewAnimalDetails(animalResult);
                             menuService.printAnimalDetails(animalToView);
                         }
 
@@ -136,8 +142,8 @@ public class Main {
                         } else {
 
                             // ELSE number is valid it will call EDIT method
-                            Animal animalToEdit = animalRepository.viewAnimalDetails(animalToEditNumber);
-                            animalRepository.editAnimalUpdate(menuService.editAnimal(animalToEdit), animalToEditNumber);
+                            ResultSet animalToEdit = animalRepository.viewAnimalDetails(animalToEditNumber);
+                            animalRepository.editAnimalUpdate(menuService.editAnimal(animal2), animalToEditNumber);
                         }
 
 
@@ -200,6 +206,8 @@ public class Main {
                         menuService.returningToMainMenu();
                         break;
 
+                    } else if (animalAction == 0) {
+                        break;
                     } else {
 
                         // ELSE invalid selection and exits to main menu

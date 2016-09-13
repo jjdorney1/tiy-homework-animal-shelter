@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 /**
  * The animal constructor, accessors and modifiers.
  * Created by jeffreydorney on 8/19/16.
@@ -10,6 +8,7 @@ public class Animal {
     private String species;
     private String breed;
     private String description;
+    private int id;
     // private ArrayList<String> notes;
 
     public Animal(String name, String species, String breed, String description) {
@@ -66,6 +65,14 @@ public class Animal {
         } else {
             System.out.println("Description cannot be empty!");
         }
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /*

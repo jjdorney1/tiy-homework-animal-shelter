@@ -79,14 +79,25 @@ public class AnimalRepository {
     }
 
     // function to view the details of an animal
-    public Animal viewAnimalDetails(int animalToView){
-        return allAnimalsListed.get(animalToView);
+    public ResultSet viewAnimalDetails(int animalToView) throws SQLException {
+        Statement stmt = connection.createStatement();
+        return stmt.executeQuery("SELECT a.animalid, a.animalname, at.animaltype, ab.animalbreed, a.animaldescription\n" +
+                "    FROM animals AS a JOIN animaltypes as at\n" +
+                "    ON a.animaltype = at.animaltypeid\n" +
+                "    JOIN animalbreed as ab\n" +
+                "    ON a.animalbreed = ab.animalbreedid\n" +
+                "    WHERE a.animalid = " + animalToView + ";");
     }
 
     // function to delete a specific animal and save that change
-    public void deleteAnimal(int animalToDelete) throws IOException {
-        allAnimalsListed.remove(animalToDelete);
-        save();
+    public void deleteAnimal(int animalToDelete) throws IOException, SQLException {
+        Statement stmt = connection.createStatement();
+        stmt.execute("DELETE FROM animaltypelink " +
+                "WHERE animalid = " + animalToDelete + ";");
+        stmt.execute("DELETE FROM notes " +
+                "WHERE animalid = " + animalToDelete + ";");
+        stmt.execute("DELETE FROM animals " +
+                "WHERE animalid = " + animalToDelete + ";");
     }
 
     // function to edit an animal's data and save that change
@@ -103,6 +114,18 @@ public class AnimalRepository {
         } else return true;
     }
 
+    public boolean validAnimalCheck(ResultSet animalEntered) throws SQLException {
+        int id = 0;
+
+        while(animalEntered.next()){
+            id = animalEntered.getInt("animalid");
+        }
+
+        if(id == 0 ){
+            return false;
+        } else return true;
+    }
+
     /*
     public void addAnimalNote(int animalToAddNote, String note) throws NullPointerException, IOException {
         ArrayList<String> currentNotes = allAnimalsListed.get(animalToAddNote).getNotes();
@@ -112,17 +135,37 @@ public class AnimalRepository {
         save();
     }
     */
-    public ResultSet listAnimals(Animal animal) throws SQLException {
-        Statement stmt = connection.createStatement();
-        return stmt.executeQuery("SELECT * FROM animals");
-    }
+
 
     public ResultSet listAnimals() throws SQLException {
         Statement stmt = connection.createStatement();
         return stmt.executeQuery("SELECT a.animalid, a.animalname, at.animaltype, a.animaldescription, a.animalbreed\n" +
                 "    FROM animals AS a JOIN animaltypes as at\n" +
                 "    ON a.animaltype = at.animaltypeid\n" +
-                "    ORDER BY a.animalid");
+                "    ORDER BY a.animalid;");
+    }
+
+    public ResultSet findAnimalWithID(int animalid) throws SQLException {
+        // create a prepared statement
+        PreparedStatement preparedStatement = connection.prepareStatement("SELECT a.animalid, a.animalname, at.animaltype, ab.animalbreed, a.animaldescription\n" +
+                        "    FROM animals AS a JOIN animaltypes as at\n" +
+                        "    ON a.animaltype = at.animaltypeid\n" +
+                        "    JOIN animalbreed as ab\n" +
+                        "    ON a.animalbreed = ab.animalbreedid\n" +
+                        "    WHERE a.animalid = ? ");
+
+
+                /*
+                "SELECT * " +
+                "FROM animals " +
+                "WHERE animalid = ?");
+                */
+
+        // set parameter values
+        preparedStatement.setInt(1, animalid);
+
+        // execute the query
+        return preparedStatement.executeQuery();
     }
 
 }
