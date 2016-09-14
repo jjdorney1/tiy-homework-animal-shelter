@@ -22,7 +22,6 @@ public class AnimalRepository {
 
     // creates a Gson object
     private Gson gson;
-
     private Connection connection;
     private String databaseAddress = "jdbc:postgresql://localhost/animal";
 
@@ -56,6 +55,12 @@ public class AnimalRepository {
     }
 
     // called when adding an animal - saves at end of function
+    public void addingAnimal() throws IOException, SQLException {
+        Statement stmt = connection.createStatement();
+        stmt.executeQuery("INSERT INTO animals (animalname, \"animaltype\", \"animalbreed\", \"animaldescription\") " +
+                "   VALUES (?, ?, ?, ?) ");
+    }
+
     public void addingAnimal(Animal animalToAdd) throws IOException {
         allAnimalsListed.add(animalToAdd);
         save();
@@ -94,6 +99,8 @@ public class AnimalRepository {
         Statement stmt = connection.createStatement();
         stmt.execute("DELETE FROM animaltypelink " +
                 "WHERE animalid = " + animalToDelete + ";");
+        stmt.execute("DELETE FROM animalbreedlink " +
+                "WHERE animalid = " + animalToDelete + ";");
         stmt.execute("DELETE FROM notes " +
                 "WHERE animalid = " + animalToDelete + ";");
         stmt.execute("DELETE FROM animals " +
@@ -108,8 +115,8 @@ public class AnimalRepository {
     }
 
     //function to check if valid animal
-    public boolean validAnimalCheck(int animalEntered){
-        if(animalEntered < 0 || animalEntered >= getAnimalsEnteredSize()){
+    public boolean validAnimalCheck(int animalEntered) throws SQLException {
+        if(viewAnimalDetails(animalEntered) == null){
             return false;
         } else return true;
     }
@@ -136,7 +143,6 @@ public class AnimalRepository {
     }
     */
 
-
     public ResultSet listAnimals() throws SQLException {
         Statement stmt = connection.createStatement();
         return stmt.executeQuery("SELECT a.animalid, a.animalname, at.animaltype, a.animaldescription, a.animalbreed\n" +
@@ -145,8 +151,8 @@ public class AnimalRepository {
                 "    ORDER BY a.animalid;");
     }
 
+
     public ResultSet findAnimalWithID(int animalid) throws SQLException {
-        // create a prepared statement
         PreparedStatement preparedStatement = connection.prepareStatement("SELECT a.animalid, a.animalname, at.animaltype, ab.animalbreed, a.animaldescription\n" +
                         "    FROM animals AS a JOIN animaltypes as at\n" +
                         "    ON a.animaltype = at.animaltypeid\n" +
@@ -154,17 +160,7 @@ public class AnimalRepository {
                         "    ON a.animalbreed = ab.animalbreedid\n" +
                         "    WHERE a.animalid = ? ");
 
-
-                /*
-                "SELECT * " +
-                "FROM animals " +
-                "WHERE animalid = ?");
-                */
-
-        // set parameter values
         preparedStatement.setInt(1, animalid);
-
-        // execute the query
         return preparedStatement.executeQuery();
     }
 

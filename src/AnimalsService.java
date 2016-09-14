@@ -22,7 +22,7 @@ public class AnimalsService {
     }
 
     // Adds an animal to the allAnimalsListedArray when called.
-    public void addingAnimal(Animal animalToAdd) throws IOException {
+    public void addingAnimal(Animal animalToAdd) throws IOException, SQLException {
         animalRepository.addingAnimal(animalToAdd);
     }
 

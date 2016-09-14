@@ -3,30 +3,42 @@
     "name": "Emmy",
     "species": "Cat",
     "breed": "",
-    "description": "Loud"
+    "description": "Loud",
+    "id": 0
   },
   {
     "name": "Nikki",
     "species": "Dog",
     "breed": "",
-    "description": "Nervous"
+    "description": "Nervous",
+    "id": 0
   },
   {
     "name": "lkasfl",
     "species": "hasifhiawf",
     "breed": "ianwf",
-    "description": "aiwfina"
+    "description": "aiwfina",
+    "id": 0
   },
   {
     "name": "ainfianwf",
     "species": "aifian",
     "breed": "aiefninf",
-    "description": "ianfinawf"
+    "description": "ianfinawf",
+    "id": 0
   },
   {
     "name": "lolol",
     "species": "lol",
     "breed": "",
-    "description": "llo"
+    "description": "llo",
+    "id": 0
+  },
+  {
+    "name": "oscar",
+    "species": "cat",
+    "breed": "",
+    "description": "cute",
+    "id": 0
   }
 ]

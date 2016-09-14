@@ -129,6 +129,7 @@ public class MenuService {
         String species = hasStringCheck("Species: ", true);
         String breed = hasStringCheck("Breed (optional): ", false);
         String description = hasStringCheck("Description: ", true);
+
         // animalRepository.addAnimalNote(0, date());
 
         // returns the animal while applying all the gathered data

@@ -119,10 +119,6 @@ public class Main {
                             menuService.printAnimalDetails(animalToView);
                         }
 
-
-                        // EDIT ANIMAL DETAILS
-
-
                         // EDIT FUNCTION DOESN'T PERSIST UNLESS ANOTHER ANIMAL ADDED
                     } else if (animalAction == MenuService.EDIT_ANIMAL /* Sub Option 4 */) {
 
@@ -145,10 +141,6 @@ public class Main {
                             ResultSet animalToEdit = animalRepository.viewAnimalDetails(animalToEditNumber);
                             animalRepository.editAnimalUpdate(menuService.editAnimal(animal2), animalToEditNumber);
                         }
-
-
-                        // DELETE ANIMAL
-
 
                     } else if (animalAction == MenuService.DELETE_ANIMAL /* Sub Option 5 */) {
 
